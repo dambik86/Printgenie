@@ -1073,7 +1073,79 @@ img{
     <button class="photo-ai-btn" id="photo-ai-btn" onclick="doPhotoAnalyze()"><span class="ai-spin"></span><span id="photo-btn-text"></span></button>
     <div id="photo-response-area"></div>
   </div>
-  <div id="input-desc" style="display:none"><div class="describe-box"><textarea id="desc-input" rows="5"></textarea><div class="describe-hint" id="desc-hint"></div><button class="ai-btn" id="ai-analyze-btn" onclick="doAIAnalyze()"><span class="ai-spin"></span><span id="ai-btn-text"></span></button></div><div id="ai-response-area"></div><div class="ai-chat-box" id="ai-chat-box"><div class="ai-chat-head"><span>💬</span><div id="ai-chat-title">AI chat</div></div><div class="ai-chat-log" id="ai-chat-log"></div><div class="ai-chat-note" id="ai-chat-note"></div><div class="ai-chat-form"><textarea id="ai-chat-input" rows="2"></textarea><button id="ai-chat-send" onclick="sendAIChat()"></button></div></div></div>
+  <div id="input-desc" style="display:none"><div class="describe-box"><textarea id="desc-input" rows="5"></textarea><div class="describe-hint" id="desc-hint"></div>
+<div id="pg-v56-expert" style="
+margin:18px 0;
+padding:16px;
+border:1px solid rgba(255,112,67,.25);
+border-radius:18px;
+background:rgba(255,112,67,.06);
+">
+  <label style="
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+  color:white;
+  cursor:pointer;
+  margin-bottom:10px;
+  ">
+    <input type="checkbox" id="pgExpertToggle" style="width:18px;height:18px;">
+    <span>EXPERT MODE</span>
+  </label>
+
+  <div id="pgExpertPanel" style="display:none;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+      <select id="pgExpertSlicer">
+        <option>Slicer</option>
+        <option>OrcaSlicer</option>
+        <option>Bambu Studio</option>
+        <option>PrusaSlicer</option>
+        <option>Cura</option>
+      </select>
+
+      <select id="pgExpertMaterial">
+        <option>Materiál</option>
+        <option>PLA</option>
+        <option>PETG</option>
+        <option>ABS / ASA</option>
+        <option>TPU</option>
+      </select>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <input id="pgExpertNozzle" placeholder="Nozzle °C">
+      <input id="pgExpertBed" placeholder="Bed °C">
+    </div>
+
+    <div style="
+    margin-top:12px;
+    color:#bdb7d9;
+    font-size:13px;
+    line-height:1.5;
+    ">
+      Expert režim přidá:
+      <br>• confidence score
+      <br>• přesné slicer hodnoty
+      <br>• kalibrační testy
+      <br>• Orca/Bambu profil výstup
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const t = document.getElementById("pgExpertToggle");
+  const p = document.getElementById("pgExpertPanel");
+  if(t && p){
+    t.addEventListener("change", function(){
+      p.style.display = t.checked ? "block" : "none";
+    });
+  }
+});
+</script>
+
+<button class="ai-btn" id="ai-analyze-btn" onclick="doAIAnalyze()"><span class="ai-spin"></span><span id="ai-btn-text"></span></button></div><div id="ai-response-area"></div><div class="ai-chat-box" id="ai-chat-box"><div class="ai-chat-head"><span>💬</span><div id="ai-chat-title">AI chat</div></div><div class="ai-chat-log" id="ai-chat-log"></div><div class="ai-chat-note" id="ai-chat-note"></div><div class="ai-chat-form"><textarea id="ai-chat-input" rows="2"></textarea><button id="ai-chat-send" onclick="sendAIChat()"></button></div></div></div>
   <div class="slbl" id="lbl-or"></div><div class="pgrid" id="pgrid">
     <button class="pcard" onclick="doSelectProb('warping')"><div class="pi">📐</div><div class="pn">Warping – Zdvíhání rohů</div><div class="pdesc">Rohy a okraje se zdvíhají od podložky.</div><span class="ptag high">Common issue</span></button>
     <button class="pcard" onclick="doSelectProb('stringing')"><div class="pi">🕸️</div><div class="pn">Stringing – Fine strings</div><div class="pdesc">Thin strings appear between printed parts.</div><span class="ptag med">Medium</span></button>
