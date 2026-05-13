@@ -1,6 +1,0 @@
-PrintGenie v59 HYBRID AI UI
-- přidána sekce Jak PrintGenie funguje
-- vysvětlení hybrid AI workflow
-- databáze + AI + pravidla materiálů
-- profesionálnější UX a důvěryhodnost
-- nový workflow Setup > Kontrola > Diagnostika > Doporučení
