@@ -1,4 +1,0 @@
-PrintGenie v28 ROLLBACK FULL
-
-Toto je navrat na posledni skutecne plnou funkcni verzi z v20, ne minimalisticky mockup.
-Obsahuje index.html, NAVOD.md, netlify.toml, netlify/functions/analyze.js a logo.
