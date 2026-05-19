@@ -1,205 +1,29 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-<meta charset="UTF-8">
-<title>Privacy Policy — PrintGenie</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#0d0d18;color:#d0d0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.7;padding:40px 20px}
-.wrap{max-width:780px;margin:0 auto}
-h1{font-size:32px;color:#fff;margin-bottom:8px}
-h2{font-size:20px;color:#fff;margin:32px 0 12px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)}
-h2:first-of-type{border-top:none;padding-top:0}
-p{margin-bottom:14px}
-ul{margin:0 0 16px 24px}
-li{margin-bottom:6px}
-strong{color:#fff}
-a{color:#ff8c6a;text-decoration:none}
-a:hover{text-decoration:underline}
-.langsw{margin-bottom:30px;display:flex;gap:8px}
-.langsw button{padding:6px 16px;background:#1a1a2c;border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#b4b4d0;cursor:pointer;font-size:13px;font-weight:600}
-.langsw button.on{background:#ff5c35;color:#fff;border-color:#ff5c35}
-.meta{color:#6e6e8a;font-size:12px;margin-bottom:30px}
-.back{display:inline-block;margin-top:40px;padding:10px 20px;background:#1a1a2c;border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#f0f0fc;font-weight:600}
-.back:hover{border-color:#ff5c35;color:#ff5c35;text-decoration:none}
-section{display:none}
-section.active{display:block}
-</style>
-</head>
-<body>
-<div class="wrap">
-
-<div class="langsw">
-  <button class="on" onclick="show('cs')">CZ</button>
-  <button onclick="show('en')">EN</button>
-</div>
-
-<section id="sec-cs" class="active">
-
-<h1>Privacy Policy</h1>
-<p class="meta">Naposledy aktualizováno: květen 2026</p>
-
-<h2>1. Kdo jsme</h2>
-<p>PrintGenie (<a href="https://printgenieai.com">printgenieai.com</a>) je nezávislý projekt provozovaný Petrem Dambikem, fyzickou osobou v České republice. Kontakt: peter@printgenieai.com.</p>
-
-<h2>2. Co PrintGenie sbírá</h2>
-<p>PrintGenie sbírá data <strong>POUZE pokud k tomu dáš výslovný souhlas</strong> (volba "Souhlasím" v úvodním modálním okně). Pokud souhlas nedáš, žádná data se neukládají.</p>
-<p>Pokud souhlasíš, ukládáme:</p>
-<ul>
-<li><strong>Fotografie</strong>, které nahráváš do Print Doctor (po odstranění EXIF metadat — bez GPS, bez data, bez modelu fotoaparátu)</li>
-<li><strong>Textový popis problému</strong>, který napíšeš</li>
-<li><strong>Diagnóza od AI</strong>, kterou ti AI vrátila</li>
-<li><strong>Vyhledávané dotazy</strong> v Hledači modelů</li>
-<li><strong>Konverzace</strong> s AI Poradcem</li>
-<li><strong>Tiskárna a materiál</strong>, který jsi zvolil v rozhraní</li>
-<li><strong>Anonymní metadata:</strong> hash IP adresy (z původní IP nelze odvodit), země (z Vercel hlavičky), jazyk rozhraní, čas vytvoření</li>
-</ul>
-
-<h2>3. Co NEsbíráme</h2>
-<ul>
-<li>Žádné jméno, e-mail, telefon, ani další identifikační údaje</li>
-<li>Žádnou původní (nehashovanou) IP adresu</li>
-<li>Žádné tracking cookies</li>
-<li>Žádné informace z dalších webů (Google Analytics ukládá jen anonymní statistiku)</li>
-</ul>
-
-<h2>4. K čemu data používáme</h2>
-<p>Sbíraná data slouží <strong>výhradně k vylepšení PrintGenie</strong>:</p>
-<ul>
-<li>Analýza nejčastějších problémů 3D tisku v komunitě</li>
-<li>Vylepšování AI promptů a kvality diagnóz</li>
-<li>Statistiky o tom, jaké tiskárny a materiály lidé používají</li>
-<li>Případný trénink lepších AI modelů v budoucnu (jen s anonymizovanými daty)</li>
-</ul>
-<p>Data <strong>NEPRODÁVÁME, NEPŘEDÁVÁME třetím stranám, NEPOUŽÍVÁME k marketingu</strong>.</p>
-
-<h2>5. Třetí strany, kterým data předáváme</h2>
-<ul>
-<li><strong>Anthropic</strong> (USA) — provoz AI Claude. Vidí obsah dotazů během zpracování, ukládá je 30 dní pro účely zneužití, pak smaže. <a href="https://www.anthropic.com/legal/privacy">Anthropic Privacy Policy</a></li>
-<li><strong>Supabase</strong> (EU, Frankfurt) — databáze a úložiště fotek. Data jsou v EU, GDPR-compliant. <a href="https://supabase.com/privacy">Supabase Privacy</a></li>
-<li><strong>Vercel</strong> (USA) — hosting webu. Standard cloud poskytovatel. <a href="https://vercel.com/legal/privacy-policy">Vercel Privacy</a></li>
-</ul>
-
-<h2>6. Jak dlouho data uchováváme</h2>
-<p>Sbíraná data uchováváme <strong>maximálně 12 měsíců</strong> od vytvoření. Po této době jsou automaticky smazána. Můžeš o smazání svých dat požádat dříve (viz bod 8).</p>
-
-<h2>7. Tvoje práva (GDPR)</h2>
-<p>Jako uživatel máš tato práva:</p>
-<ul>
-<li><strong>Právo odvolat souhlas</strong> — kdykoliv, v nastavení nebo emailem</li>
-<li><strong>Právo na výmaz</strong> — všechna tvoje data ti na požádání smažeme</li>
-<li><strong>Právo na přístup</strong> — pošleme ti kopii dat, která o tobě máme</li>
-<li><strong>Právo na opravu</strong></li>
-<li><strong>Právo podat stížnost</strong> — na <a href="https://www.uoou.cz">Úřad pro ochranu osobních údajů</a></li>
-</ul>
-<p>Pro uplatnění práv napiš na <strong>peter@printgenieai.com</strong>. <em>Pozn.: protože neukládáme jméno ani email, nejsme schopni identifikovat tvoje konkrétní příspěvky bez doplňujících informací (např. čas vytvoření, popis problému). Pro výmaz konkrétních záznamů popiš co nejpřesněji co jsi nahrál a kdy.</em></p>
-
-<h2>8. Souhlas a jeho odvolání</h2>
-<p>Souhlas dáváš dobrovolně kliknutím "Souhlasím" v modálním okně. Souhlas můžeš kdykoliv odvolat:</p>
-<ul>
-<li>Vymazáním <code>localStorage</code> v prohlížeči (DevTools → Application → Local Storage → smazat klíč <code>pg_consent_v1</code>)</li>
-<li>Emailem na peter@printgenieai.com</li>
-</ul>
-<p>Odvolání souhlasu nemá vliv na zákonnost zpracování před odvoláním.</p>
-
-<h2>9. Bezpečnost</h2>
-<p>Data jsou uložena v <strong>privátním Supabase bucketu</strong> (žádný veřejný přístup). Fotky jsou přístupné pouze přes podepsané URL platné 1 hodinu, generované service-role klíčem který má pouze provozovatel.</p>
-
-<h2>10. Změny této policy</h2>
-<p>Tuto policy můžeme občas aktualizovat. Datum poslední aktualizace je nahoře. Významné změny oznámíme přímo na webu.</p>
-
-<a class="back" href="/">← Zpět na PrintGenie</a>
-</section>
-
-<section id="sec-en">
-
-<h1>Privacy Policy</h1>
-<p class="meta">Last updated: May 2026</p>
-
-<h2>1. Who we are</h2>
-<p>PrintGenie (<a href="https://printgenieai.com">printgenieai.com</a>) is an independent project operated by Peter Dambik, a natural person in the Czech Republic. Contact: peter@printgenieai.com.</p>
-
-<h2>2. What PrintGenie collects</h2>
-<p>PrintGenie collects data <strong>ONLY if you give explicit consent</strong> (the "I agree" option in the welcome modal). Without consent, no data is stored.</p>
-<p>If you consent, we store:</p>
-<ul>
-<li><strong>Photos</strong> you upload to Print Doctor (after EXIF metadata removal — no GPS, no date, no camera model)</li>
-<li><strong>Problem description text</strong> you write</li>
-<li><strong>AI diagnosis</strong> returned by AI</li>
-<li><strong>Search queries</strong> in the Model Finder</li>
-<li><strong>Conversations</strong> with AI Advisor</li>
-<li><strong>Printer and material</strong> you select in the interface</li>
-<li><strong>Anonymous metadata:</strong> hashed IP address (cannot be reversed), country (from Vercel header), interface language, creation time</li>
-</ul>
-
-<h2>3. What we do NOT collect</h2>
-<ul>
-<li>No name, email, phone, or other identifying information</li>
-<li>No raw (unhashed) IP address</li>
-<li>No tracking cookies</li>
-<li>No information from other sites (Google Analytics stores only anonymous statistics)</li>
-</ul>
-
-<h2>4. How we use the data</h2>
-<p>Collected data is used <strong>exclusively to improve PrintGenie</strong>:</p>
-<ul>
-<li>Analysis of most common 3D printing problems in the community</li>
-<li>Improving AI prompts and diagnosis quality</li>
-<li>Statistics about printers and materials people use</li>
-<li>Possible training of better AI models in the future (only with anonymized data)</li>
-</ul>
-<p>We DO NOT sell, transfer to third parties, or use for marketing.</p>
-
-<h2>5. Third parties</h2>
-<ul>
-<li><strong>Anthropic</strong> (USA) — AI Claude operation. Sees content during processing, stores for 30 days for abuse purposes, then deletes. <a href="https://www.anthropic.com/legal/privacy">Anthropic Privacy Policy</a></li>
-<li><strong>Supabase</strong> (EU, Frankfurt) — database and photo storage. Data is in EU, GDPR-compliant. <a href="https://supabase.com/privacy">Supabase Privacy</a></li>
-<li><strong>Vercel</strong> (USA) — web hosting. Standard cloud provider. <a href="https://vercel.com/legal/privacy-policy">Vercel Privacy</a></li>
-</ul>
-
-<h2>6. Data retention</h2>
-<p>Collected data is retained for <strong>maximum 12 months</strong> from creation. After this period, it is automatically deleted. You can request earlier deletion (see point 8).</p>
-
-<h2>7. Your rights (GDPR)</h2>
-<p>As a user you have these rights:</p>
-<ul>
-<li><strong>Right to withdraw consent</strong> — anytime, via settings or email</li>
-<li><strong>Right to erasure</strong> — we will delete all your data on request</li>
-<li><strong>Right of access</strong> — we will send you a copy of data we have</li>
-<li><strong>Right to rectification</strong></li>
-<li><strong>Right to complain</strong> — to <a href="https://www.uoou.cz">Czech Data Protection Authority</a></li>
-</ul>
-<p>To exercise rights write to <strong>peter@printgenieai.com</strong>. <em>Note: since we do not store name or email, we cannot identify your specific entries without additional information (e.g. creation time, problem description). For deletion of specific records describe as precisely as possible what you uploaded and when.</em></p>
-
-<h2>8. Consent and withdrawal</h2>
-<p>You give consent voluntarily by clicking "I agree" in the modal. You can withdraw consent anytime:</p>
-<ul>
-<li>By clearing <code>localStorage</code> in browser (DevTools → Application → Local Storage → delete key <code>pg_consent_v1</code>)</li>
-<li>Email to peter@printgenieai.com</li>
-</ul>
-
-<h2>9. Security</h2>
-<p>Data is stored in a <strong>private Supabase bucket</strong> (no public access). Photos are accessible only via signed URLs valid for 1 hour, generated by service-role key held only by the operator.</p>
-
-<h2>10. Changes</h2>
-<p>We may update this policy occasionally. Last update date is at top. Significant changes will be announced on the site.</p>
-
-<a class="back" href="/">← Back to PrintGenie</a>
-</section>
-
-</div>
-
-<script>
-function show(l){
-  document.querySelectorAll("section").forEach(function(s){s.classList.remove("active");});
-  document.getElementById("sec-"+l).classList.add("active");
-  document.querySelectorAll(".langsw button").forEach(function(b){b.classList.remove("on");});
-  document.querySelectorAll(".langsw button")[l==="cs"?0:1].classList.add("on");
+{
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "functions": {
+    "api/analyze.js": {
+      "maxDuration": 60
+    },
+    "api/ai-scout.js": {
+      "maxDuration": 60
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    }
+  ]
 }
-// Detect URL hash
-if(location.hash==="#en") show("en");
-</script>
-</body>
-</html>
