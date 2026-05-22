@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PrintGenie · Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a14;color:#d0d0e0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:14px}
+.topbar{background:#13131f;border-bottom:1px solid rgba(255,255,255,.08);padding:12px 24px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:10}
+.brand{font-weight:700;color:#fff;font-size:16px}
+.brand-sub{color:#ff5c35}
+.topbar-spacer{flex:1}
+.btn{padding:7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#1a1a2c;color:#f0f0fc;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit}
+.btn:hover{border-color:#ff5c35;color:#ff5c35}
+.btn-primary{background:#ff5c35;border-color:#ff5c35;color:#fff}
+.btn-primary:hover{background:#ff7553;color:#fff}
+.btn-danger{background:transparent;color:#ff5a7e;border-color:rgba(255,90,126,.3)}
+.btn-danger:hover{background:#ff5a7e;color:#fff;border-color:#ff5a7e}
+
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{background:#13131f;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;max-width:380px;width:100%}
+.login-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:6px}
+.login-sub{color:#8a8aa8;font-size:13px;margin-bottom:24px}
+.input{width:100%;padding:11px 14px;background:#1a1a2c;border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#fff;font-size:14px;font-family:inherit;outline:none}
+.input:focus{border-color:#ff5c35}
+.error{color:#ff5a7e;font-size:13px;margin-top:10px}
+
+.main{padding:24px}
+.tabs{display:flex;gap:4px;background:#13131f;padding:4px;border-radius:12px;margin-bottom:24px;border:1px solid rgba(255,255,255,.06);width:fit-content}
+.tab{padding:10px 18px;border-radius:8px;cursor:pointer;color:#8a8aa8;font-weight:600;font-size:13px;transition:.15s}
+.tab.on{background:#ff5c35;color:#fff}
+.tab:hover:not(.on){color:#f0f0fc}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:24px}
+.stat{background:#13131f;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px}
+.stat-label{font-size:11px;color:#6e6e8a;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px}
+.stat-val{font-size:28px;font-weight:700;color:#fff;line-height:1}
+.stat-sub{font-size:12px;color:#8a8aa8;margin-top:6px}
+
+.top-list{background:#13131f;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;margin-bottom:14px}
+.top-title{font-size:11px;color:#6e6e8a;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:12px}
+.top-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.top-row:last-child{border-bottom:none}
+.top-name{color:#f0f0fc;font-size:13px}
+.top-count{color:#ff8c6a;font-weight:700;font-size:13px}
+
+.rows{display:flex;flex-direction:column;gap:10px}
+.row{background:#13131f;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;display:flex;gap:14px;align-items:flex-start}
+.row-thumb{flex-shrink:0;width:80px;height:80px;border-radius:8px;background:#0e0e18;overflow:hidden;cursor:pointer;border:1px solid rgba(255,255,255,.05);position:relative;display:flex;align-items:center;justify-content:center;font-size:24px;color:#3a3a4c}
+.row-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.row-body{flex:1;min-width:0}
+.row-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;font-size:11px}
+.row-meta span{background:#1a1a2c;padding:3px 9px;border-radius:20px;color:#8a8aa8;font-family:monospace}
+.row-meta span.tag-cat{background:rgba(255,92,53,.1);color:#ff8c6a}
+.row-meta span.tag-printer{background:rgba(80,130,255,.1);color:#7fa3ff}
+.row-meta span.tag-mat{background:rgba(127,191,127,.1);color:#7fbf7f}
+.row-desc{color:#d0d0e0;font-size:13px;line-height:1.55;margin-bottom:6px;white-space:pre-wrap;word-break:break-word}
+.row-diag{color:#8a8aa8;font-size:12px;line-height:1.55;max-height:120px;overflow:hidden;border-left:2px solid #ff5c35;padding-left:10px;margin-top:8px;white-space:pre-wrap;word-break:break-word}
+.row-diag.expanded{max-height:none}
+.row-expand{font-size:11px;color:#ff8c6a;cursor:pointer;margin-top:6px}
+.row-actions{flex-shrink:0;display:flex;flex-direction:column;gap:6px}
+.row-time{font-size:11px;color:#6e6e8a;font-family:monospace}
+
+.pagination{display:flex;gap:8px;justify-content:center;margin:24px 0}
+.empty{text-align:center;padding:60px 20px;color:#6e6e8a}
+.loading{text-align:center;padding:40px 20px;color:#8a8aa8}
+
+.photo-modal{position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:100;cursor:pointer}
+.photo-modal img{max-width:90%;max-height:90vh;border-radius:12px}
+.photo-modal-close{position:absolute;top:20px;right:20px;color:#fff;font-size:32px;background:rgba(0,0,0,.5);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login" class="login-wrap">
+  <div class="login-box">
+    <div class="login-title">PrintGenie Admin</div>
+    <div class="login-sub">Enter admin password</div>
+    <input type="password" class="input" id="pwd" placeholder="••••••••" autocomplete="current-password">
+    <div id="login-err" class="error" style="display:none"></div>
+    <button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="doLogin()">Login</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash" style="display:none">
+
+<div class="topbar">
+  <div class="brand">PrintGenie <span class="brand-sub">/admin</span></div>
+  <div class="topbar-spacer"></div>
+  <button class="btn" onclick="refresh()">↻ Refresh</button>
+  <button class="btn" onclick="logout()">Logout</button>
+</div>
+
+<div class="main">
+
+<div class="tabs">
+  <div class="tab on" onclick="show('overview')">Overview</div>
+  <div class="tab" onclick="show('analyses')">Print Doctor</div>
+  <div class="tab" onclick="show('chats')">AI Advisor</div>
+  <div class="tab" onclick="show('searches')">Model Search</div>
+</div>
+
+<div id="view-overview">
+  <div id="stats-content" class="loading">Loading…</div>
+</div>
+
+<div id="view-analyses" style="display:none">
+  <div id="analyses-content" class="loading">Loading…</div>
+</div>
+
+<div id="view-chats" style="display:none">
+  <div id="chats-content" class="loading">Loading…</div>
+</div>
+
+<div id="view-searches" style="display:none">
+  <div id="searches-content" class="loading">Loading…</div>
+</div>
+
+</div>
+</div>
+
+<script>
+var TOKEN = sessionStorage.getItem("pg_admin_token") || "";
+var currentView = "overview";
+
+if(TOKEN){ tryLoadDash(); }
+
+document.getElementById("pwd").addEventListener("keydown",function(e){
+  if(e.key==="Enter") doLogin();
+});
+
+function doLogin(){
+  var pwd = document.getElementById("pwd").value;
+  var err = document.getElementById("login-err");
+  err.style.display="none";
+  fetch("/api/admin?action=login&password=" + encodeURIComponent(pwd))
+    .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})})
+    .then(function(x){
+      if(!x.ok){err.textContent=x.d.error||"Login failed";err.style.display="block";return;}
+      TOKEN = x.d.token;
+      sessionStorage.setItem("pg_admin_token", TOKEN);
+      tryLoadDash();
+    })
+    .catch(function(e){err.textContent=e.message;err.style.display="block";});
+}
+
+function logout(){
+  sessionStorage.removeItem("pg_admin_token");
+  TOKEN="";
+  location.reload();
+}
+
+function tryLoadDash(){
+  document.getElementById("login").style.display="none";
+  document.getElementById("dash").style.display="block";
+  show("overview");
+}
+
+function api(action, params){
+  params = params || {};
+  params.action = action;
+  params.token = TOKEN;
+  return fetch("/api/admin",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(params)
+  }).then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d}})})
+    .then(function(x){
+      if(!x.ok){
+        if(x.d.error==="Invalid or expired token"){logout();return;}
+        throw new Error(x.d.error||"API error");
+      }
+      return x.d;
+    });
+}
+
+function show(view){
+  currentView=view;
+  ["overview","analyses","chats","searches"].forEach(function(v){
+    document.getElementById("view-"+v).style.display = (v===view ? "block" : "none");
+  });
+  document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("on");});
+  document.querySelectorAll(".tab")[["overview","analyses","chats","searches"].indexOf(view)].classList.add("on");
+  refresh();
+}
+
+function refresh(){
+  if(currentView==="overview") loadStats();
+  else if(currentView==="analyses") loadAnalyses();
+  else if(currentView==="chats") loadChats();
+  else if(currentView==="searches") loadSearches();
+}
+
+function loadStats(){
+  var el = document.getElementById("stats-content");
+  el.innerHTML='<div class="loading">Loading…</div>';
+  api("stats").then(function(d){
+    var s = d.stats;
+    var html = '<div class="stats-grid">';
+    html += statBox("Print Doctor", s.analyses.total, s.analyses.last_24h+" today · "+s.analyses.last_7d+" this week");
+    html += statBox("AI Advisor", s.chats.total, s.chats.last_24h+" today · "+s.chats.last_7d+" this week");
+    html += statBox("Model Search", s.searches.total, s.searches.last_24h+" today · "+s.searches.last_7d+" this week");
+    html += '</div>';
+
+    if(s.analyses.top_categories.length){
+      html += topList("Top problem categories", s.analyses.top_categories);
+    }
+    if(s.analyses.top_printers.length){
+      html += topList("Top printers", s.analyses.top_printers);
+    }
+    if(s.analyses.top_materials.length){
+      html += topList("Top materials", s.analyses.top_materials);
+    }
+    if(s.searches.top_queries.length){
+      html += topList("Top search queries", s.searches.top_queries);
+    }
+    el.innerHTML = html;
+  }).catch(function(e){
+    el.innerHTML = '<div class="error">'+escH(e.message)+'</div>';
+  });
+}
+
+function statBox(label, val, sub){
+  return '<div class="stat"><div class="stat-label">'+escH(label)+'</div><div class="stat-val">'+val+'</div><div class="stat-sub">'+escH(sub)+'</div></div>';
+}
+
+function topList(title, items){
+  var html = '<div class="top-list"><div class="top-title">'+escH(title)+'</div>';
+  items.forEach(function(it){
+    html += '<div class="top-row"><span class="top-name">'+escH(it.name)+'</span><span class="top-count">'+it.count+'</span></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function loadAnalyses(){
+  var el = document.getElementById("analyses-content");
+  el.innerHTML='<div class="loading">Loading…</div>';
+  api("list_analyses",{limit:100}).then(function(d){
+    if(!d.data || !d.data.length){el.innerHTML='<div class="empty">No analyses yet. When users start uploading photos with consent, they appear here.</div>';return;}
+    el.innerHTML = '<div class="rows">' + d.data.map(renderAnalysis).join("") + '</div>';
+  }).catch(function(e){el.innerHTML = '<div class="error">'+escH(e.message)+'</div>';});
+}
+
+function renderAnalysis(r){
+  var time = new Date(r.created_at).toLocaleString();
+  var thumbHtml = r.photo_url
+    ? '<div class="row-thumb" data-photo="'+escAttr(r.photo_url)+'" onclick="loadPhoto(this)">📷</div>'
+    : '<div class="row-thumb">📝</div>';
+  var meta = '<span class="row-time">'+escH(time)+'</span>';
+  if(r.country) meta += '<span>'+escH(r.country)+'</span>';
+  if(r.language) meta += '<span>'+escH(r.language.toUpperCase())+'</span>';
+  if(r.problem_category) meta += '<span class="tag-cat">'+escH(r.problem_category)+'</span>';
+  if(r.printer_brand) meta += '<span class="tag-printer">'+escH(r.printer_brand)+'</span>';
+  if(r.material) meta += '<span class="tag-mat">'+escH(r.material)+'</span>';
+  if(r.ai_model) meta += '<span>'+escH(r.ai_model)+'</span>';
+  if(r.ai_response_time_ms) meta += '<span>'+(r.ai_response_time_ms/1000).toFixed(1)+'s</span>';
+
+  var diagText = r.ai_diagnosis || "";
+  // Strip HTML for display
+  var div = document.createElement("div"); div.innerHTML = diagText;
+  var plain = div.textContent || div.innerText || "";
+
+  return '<div class="row">' +
+    thumbHtml +
+    '<div class="row-body">' +
+    '<div class="row-meta">' + meta + '</div>' +
+    (r.description ? '<div class="row-desc">'+escH(r.description)+'</div>' : '') +
+    (plain ? '<div class="row-diag" onclick="this.classList.toggle(\'expanded\')">'+escH(plain.slice(0,1500))+(plain.length>1500?'…':'')+'</div>' : '') +
+    '</div>' +
+    '<div class="row-actions"><button class="btn btn-danger" onclick="del(\'analyses\',\''+r.id+'\')">Delete</button></div>' +
+    '</div>';
+}
+
+function loadChats(){
+  var el = document.getElementById("chats-content");
+  el.innerHTML='<div class="loading">Loading…</div>';
+  api("list_chats",{limit:100}).then(function(d){
+    if(!d.data || !d.data.length){el.innerHTML='<div class="empty">No chats yet.</div>';return;}
+    el.innerHTML = '<div class="rows">' + d.data.map(renderChat).join("") + '</div>';
+  }).catch(function(e){el.innerHTML = '<div class="error">'+escH(e.message)+'</div>';});
+}
+
+function renderChat(r){
+  var time = new Date(r.created_at).toLocaleString();
+  var meta = '<span class="row-time">'+escH(time)+'</span>';
+  if(r.country) meta += '<span>'+escH(r.country)+'</span>';
+  if(r.language) meta += '<span>'+escH(r.language.toUpperCase())+'</span>';
+  if(r.ai_model) meta += '<span>'+escH(r.ai_model)+'</span>';
+  if(r.ai_response_time_ms) meta += '<span>'+(r.ai_response_time_ms/1000).toFixed(1)+'s</span>';
+
+  return '<div class="row">' +
+    '<div class="row-thumb">💬</div>' +
+    '<div class="row-body">' +
+    '<div class="row-meta">' + meta + '</div>' +
+    '<div class="row-desc"><strong style="color:#fff">Q:</strong> '+escH(r.user_message)+'</div>' +
+    (r.ai_response ? '<div class="row-diag" onclick="this.classList.toggle(\'expanded\')">'+escH(r.ai_response.slice(0,1500))+(r.ai_response.length>1500?'…':'')+'</div>' : '') +
+    '</div>' +
+    '<div class="row-actions"><button class="btn btn-danger" onclick="del(\'chats\',\''+r.id+'\')">Delete</button></div>' +
+    '</div>';
+}
+
+function loadSearches(){
+  var el = document.getElementById("searches-content");
+  el.innerHTML='<div class="loading">Loading…</div>';
+  api("list_searches",{limit:200}).then(function(d){
+    if(!d.data || !d.data.length){el.innerHTML='<div class="empty">No searches yet.</div>';return;}
+    el.innerHTML = '<div class="rows">' + d.data.map(renderSearch).join("") + '</div>';
+  }).catch(function(e){el.innerHTML = '<div class="error">'+escH(e.message)+'</div>';});
+}
+
+function renderSearch(r){
+  var time = new Date(r.created_at).toLocaleString();
+  var meta = '<span class="row-time">'+escH(time)+'</span>';
+  if(r.country) meta += '<span>'+escH(r.country)+'</span>';
+  if(r.language) meta += '<span>'+escH(r.language.toUpperCase())+'</span>';
+  if(r.speed) meta += '<span>'+escH(r.speed)+'</span>';
+  if(r.results_count != null) meta += '<span>'+r.results_count+' results</span>';
+
+  return '<div class="row">' +
+    '<div class="row-thumb">🔍</div>' +
+    '<div class="row-body">' +
+    '<div class="row-meta">' + meta + '</div>' +
+    '<div class="row-desc">'+escH(r.query)+'</div>' +
+    '</div>' +
+    '<div class="row-actions"><button class="btn btn-danger" onclick="del(\'model_searches\',\''+r.id+'\')">Delete</button></div>' +
+    '</div>';
+}
+
+function loadPhoto(el){
+  var path = el.getAttribute("data-photo");
+  api("photo_url",{path:path}).then(function(d){
+    showPhotoModal(d.url);
+  }).catch(function(e){alert("Photo load error: "+e.message);});
+}
+
+function showPhotoModal(url){
+  var existing = document.querySelector(".photo-modal");
+  if(existing) existing.remove();
+  var div = document.createElement("div");
+  div.className="photo-modal";
+  div.innerHTML='<div class="photo-modal-close">×</div><img src="'+escAttr(url)+'">';
+  div.onclick=function(){div.remove();};
+  document.body.appendChild(div);
+}
+
+function del(table, id){
+  if(!confirm("Delete this record? Cannot be undone.")) return;
+  api("delete",{table:table,id:id}).then(function(){refresh();})
+    .catch(function(e){alert("Delete error: "+e.message);});
+}
+
+function escH(t){if(t==null)return"";var d=document.createElement("div");d.textContent=String(t);return d.innerHTML;}
+function escAttr(t){return escH(t).replace(/"/g,"&quot;");}
+</script>
+</body>
+</html>
