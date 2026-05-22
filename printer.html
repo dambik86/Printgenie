@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title id="page-title">Profil tiskárny — PrintGenie</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" id="page-desc" content="Specifikace, známé problémy a doporučení pro 3D tiskárny. AI diagnostika problémů zdarma.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖨️</text></svg>">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0d18;color:#d0d0e0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;padding:0;min-height:100vh}
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+
+/* Header */
+.top{padding:14px 24px;background:#13131f;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.top-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.top-brand-logo{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#ff5c35,#ff8c6a);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff}
+.top-brand-name{font-weight:700;font-size:16px}
+.top-brand-name span{color:#ff5c35}
+.top-back{padding:8px 14px;background:transparent;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#b4b4d0;font-size:12px;font-weight:600;text-decoration:none;transition:.15s}
+.top-back:hover{border-color:#ff5c35;color:#ff5c35}
+
+.wrap{max-width:1000px;margin:0 auto;padding:32px 24px 60px}
+
+/* Hero */
+.hero{margin-bottom:24px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;font-family:'JetBrains Mono',monospace;font-size:10px}
+.hero-meta span{padding:4px 12px;background:#1a1a2c;border:1px solid rgba(255,255,255,.08);border-radius:20px;color:#8a8aa8}
+.hero-meta .tag-current{background:rgba(61,220,151,.1);border-color:rgba(61,220,151,.3);color:#3ddc97}
+.hero-meta .tag-legacy{background:rgba(255,189,46,.1);border-color:rgba(255,189,46,.3);color:#ffbd2e}
+.hero-meta .tag-superseded{background:rgba(255,90,82,.1);border-color:rgba(255,90,82,.3);color:#ff5a52}
+.hero-meta .tag-diy{background:rgba(178,134,255,.1);border-color:rgba(178,134,255,.3);color:#b286ff}
+
+.hero-title{font-size:42px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:8px;line-height:1.1}
+.hero-sub{font-size:14px;color:#b4b4d0;margin-bottom:20px}
+.hero-sub strong{color:#fff}
+
+.hero-cta{display:flex;gap:8px;flex-wrap:wrap}
+.hero-btn{padding:10px 18px;background:#1a1a2c;border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#f0f0fc;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-family:inherit;transition:.15s}
+.hero-btn:hover{border-color:#ff5c35;color:#ff5c35}
+.hero-btn-primary{background:linear-gradient(135deg,#ff5c35,#ff8c6a);border-color:#ff5c35;color:#fff}
+.hero-btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,92,53,.3);color:#fff}
+
+/* Specs grid */
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:28px}
+.spec{background:#13131f;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px}
+.spec-lbl{font-size:10px;color:#6e6e8a;font-weight:700;letter-spacing:1.5px;font-family:'JetBrains Mono',monospace;margin-bottom:6px}
+.spec-val{font-size:16px;color:#fff;font-weight:700}
+.spec-sub{font-size:11px;color:#8a8aa8;margin-top:4px}
+
+/* Sections */
+.section{margin-bottom:28px}
+.section-title{font-size:11px;color:#ff8c6a;font-weight:700;letter-spacing:1.5px;font-family:'JetBrains Mono',monospace;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:'';width:3px;height:14px;background:#ff5c35;border-radius:2px}
+
+.list-card{background:#13131f;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px;margin-bottom:10px}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{padding:5px 12px;background:#1a1a2c;border:1px solid rgba(255,255,255,.08);border-radius:20px;font-size:11px;color:#b4b4d0;font-weight:500}
+.tag-mat{color:#7fd1a4;border-color:rgba(127,209,164,.25)}
+.tag-feat{color:#7fa3ff;border-color:rgba(127,163,255,.25)}
+
+.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pros, .cons{background:#13131f;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px}
+.pros{border-left:3px solid #3ddc97}
+.cons{border-left:3px solid #ff5a7e}
+.pros-cons-title{font-size:11px;font-weight:700;letter-spacing:1.5px;font-family:'JetBrains Mono',monospace;margin-bottom:10px}
+.pros .pros-cons-title{color:#3ddc97}
+.cons .pros-cons-title{color:#ff5a7e}
+.pros-cons ul{list-style:none}
+.pros-cons li{padding:5px 0;font-size:13px;color:#d0d0e0;line-height:1.5;position:relative;padding-left:18px}
+.pros-cons li::before{position:absolute;left:0;font-weight:700}
+.pros li::before{content:'+';color:#3ddc97}
+.cons li::before{content:'−';color:#ff5a7e}
+
+.issue{background:#13131f;border:1px solid rgba(255,255,255,.06);border-left:3px solid #ffbd2e;border-radius:0 12px 12px 0;padding:14px 16px;margin-bottom:10px}
+.issue-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+.issue-cause{font-size:12px;color:#8a8aa8;margin-bottom:8px}
+.issue-cause strong{color:#ffbd2e}
+.issue-fix{font-size:12px;color:#d0d0e0;background:rgba(61,220,151,.05);border:1px solid rgba(61,220,151,.15);border-radius:8px;padding:8px 10px}
+.issue-fix strong{color:#3ddc97}
+
+.upgrades{display:flex;flex-wrap:wrap;gap:6px}
+.upgrade{padding:6px 12px;background:rgba(178,134,255,.08);border:1px solid rgba(178,134,255,.2);border-radius:8px;font-size:12px;color:#b286ff}
+
+.notes-box{background:rgba(255,92,53,.05);border:1px solid rgba(255,92,53,.2);border-radius:12px;padding:16px;font-size:13px;color:#d0d0e0;line-height:1.6}
+.notes-box strong{color:#ff8c6a}
+
+/* AI ask box */
+.ai-box{background:linear-gradient(135deg,#1a1a2c 0%,#161624 100%);border:1px solid rgba(255,92,53,.25);border-radius:14px;padding:24px;text-align:center;margin-top:28px}
+.ai-box-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px}
+.ai-box-sub{font-size:13px;color:#b4b4d0;margin-bottom:18px}
+.ai-box-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* Not found */
+.notfound{text-align:center;padding:80px 20px}
+.notfound h1{font-size:32px;color:#fff;margin-bottom:14px}
+.notfound p{color:#8a8aa8;margin-bottom:24px}
+
+/* Footer */
+.footer{margin-top:60px;padding:24px;text-align:center;font-size:12px;color:#6e6e8a;border-top:1px solid rgba(255,255,255,.04)}
+
+@media (max-width:680px){
+  .hero-title{font-size:30px}
+  .pros-cons{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+<a class="top-brand" href="/">
+  <div class="top-brand-logo">P</div>
+  <div class="top-brand-name">Print<span>Genie</span></div>
+</a>
+<a class="top-back" href="/" id="back-btn">← Zpět na PrintGenie</a>
+</div>
+
+<div class="wrap" id="content">
+  <div class="notfound">
+    <h1>Načítám…</h1>
+  </div>
+</div>
+
+<div class="footer" id="footer">
+PrintGenie · printgenieai.com · AI diagnostika 3D tisku zdarma
+</div>
+
+<script>
+// ──────────────────────────────────────────────────────────────
+// PRINTER DETAIL PAGE
+// Loads printer name from URL ?p=Prusa%20MK4S
+// Fetches data from inline DB (loaded from main app)
+// ──────────────────────────────────────────────────────────────
+
+var lang = (location.search.match(/lang=(cs|en)/) || [])[1] || "cs";
+var qParams = new URLSearchParams(location.search);
+var printerName = qParams.get("p") || "";
+
+// We need PRINTER_DB. Two options:
+// 1. Inline the DB here (duplicated, but works offline)
+// 2. Load from main app (extra request)
+// We'll inline a compact version of the DB to make this page work standalone.
+
+var PRINTER_DB = {
+  "Prusa MK4S": {brand:"Prusa Research",country:"🇨🇿",year:2024,status:"current",price_eur:1099,type:"Bedslinger",kinematics:"Cartesian (i3)",build:[250,210,220],nozzle_max:300,bed_max:120,hotend:"Nextruder (PrusaCore)",bed_surface:["Smooth PEI","Textured PEI","Satin"],speeds:{max_print:300,max_travel:350,max_accel:8000},materials:["PLA","PETG","ABS","ASA","TPU","PC","Nylon","PA-CF"],features:["Input Shaper","Pressure Advance","Power Panic","Filament sensor","Camera-ready"],pros:["Vyšší rychlost než MK4","Quick-swap tryska","Vynikající kvalita povrchu","Top community support"],cons:["Vyšší cena než budget čínské","Bez enclosure (nutno dokoupit)","Bowden alternativ chybí"],issues:[{issue:"Z-banding pod 0.15mm vrstvou",causes:"Vibrace, leadscrew",fix:"Belt tension check, lubricate Z, lower accel"},{issue:"PETG sticking to bed",causes:"Příliš horká podložka",fix:"Sníž bed na 80°C, použij glue stick"},{issue:"Nextruder klikání",causes:"Pressure advance špatně",fix:"Calibrate PA tower, check filament path"}],upgrades:["Sunon fan (tišší)","Enclosure (pro ABS)","Bondtech CHT tryska","Linear rail Y-axis"],notes:"Top volba pro hobby + small business. Nejlepší český model na trhu."},
+  "Prusa MK4": {brand:"Prusa Research",country:"🇨🇿",year:2023,status:"superseded",price_eur:899,type:"Bedslinger",kinematics:"Cartesian (i3)",build:[250,210,220],nozzle_max:300,bed_max:120,hotend:"Nextruder",bed_surface:["Smooth PEI","Textured PEI"],speeds:{max_print:200,max_travel:300,max_accel:6000},materials:["PLA","PETG","ABS","ASA","TPU","PC","Nylon"],features:["Input Shaper","Power Panic","Filament sensor"],pros:["Stable, proven","Skvělá komunita","Upgrade na MK4S možný"],cons:["Pomalejší než MK4S","Nextruder klikání občas"],issues:[{issue:"Nextruder klikání",causes:"Pressure advance",fix:"Calibrate PA"},{issue:"Pomalý oproti CoreXY",causes:"Bedslinger limit",fix:"Upgrade na MK4S"}],upgrades:["MK4S upgrade kit","Enclosure","Bondtech CHT"],notes:"Stále výborná volba, ale MK4S má lepší rychlost za 200 EUR navíc."},
+  "Prusa MK3S+": {brand:"Prusa Research",country:"🇨🇿",year:2021,status:"legacy",price_eur:799,type:"Bedslinger",kinematics:"Cartesian (i3)",build:[250,210,210],nozzle_max:300,bed_max:120,hotend:"E3D V6 clone",bed_surface:["Smooth PEI","Textured PEI"],speeds:{max_print:80,max_travel:200,max_accel:1500},materials:["PLA","PETG","ABS","ASA","TPU","PC","Nylon"],features:["Filament sensor","Power Panic","Crash detection"],pros:["Legendární spolehlivost","Obrovská komunita","Tisíce upgradů"],cons:["Pomalý oproti moderním","Manual bed leveling občas"],issues:[{issue:"PINDA probe drift",causes:"Temperatura PINDA mění odečet",fix:"Použij SuperPINDA upgrade"},{issue:"Y-belt skipping",causes:"Belt opotřebený",fix:"Vyměň belt po 2-3 letech"}],upgrades:["Bondtech extruder","Bear frame","SuperPINDA","X-axis rebuild"],notes:"Workhorse mnoha makerů. Stále drží. Doporučeno jen second-hand."},
+  "Prusa MINI+": {brand:"Prusa Research",country:"🇨🇿",year:2021,status:"current",price_eur:459,type:"Cantilever",kinematics:"Cartesian (cantilever Z)",build:[180,180,180],nozzle_max:280,bed_max:100,hotend:"Standard",bed_surface:["Smooth PEI","Textured PEI"],speeds:{max_print:80,max_travel:200,max_accel:1500},materials:["PLA","PETG","ABS (zlomek)","TPU"],features:["Mesh bed leveling","Filament sensor"],pros:["Kompaktní","Velmi přístupná cena","Tichý"],cons:["Malý build volume","Cantilever Z může wobblovat","Pomalé"],issues:[{issue:"Cantilever Z wobble",causes:"Single Z screw",fix:"Print stable corners, low speeds for tall"},{issue:"Bed temp uneven",causes:"Single zone heater",fix:"Use brim, glue stick"}],upgrades:["Dual Z mod","Bondtech extruder","Improved cooling fan"],notes:"Skvělá vstupní brána do Prusa ekosystému. Ideální druhá tiskárna."},
+  "Prusa CORE One": {brand:"Prusa Research",country:"🇨🇿",year:2025,status:"current",price_eur:1499,type:"CoreXY",kinematics:"CoreXY enclosed",build:[250,250,270],nozzle_max:320,bed_max:120,hotend:"Nextruder",bed_surface:["Smooth PEI","Textured PEI","Satin"],speeds:{max_print:500,max_travel:600,max_accel:12000},materials:["PLA","PETG","ABS","ASA","PC","PA-CF","PEI"],features:["Active chamber","Input Shaper","Power Panic","Filament runout","Camera built-in"],pros:["První Prusa CoreXY","Enclosed pro ABS/PC","Rychlost+kvalita Prusa","Active chamber heater"],cons:["Premium cena","Nedávno vydaný (možné bugs)"],issues:[{issue:"Chamber temp ramp up slow",causes:"Pasivní design",fix:"Předehřát před tiskem"},{issue:"Door magnetism slabé",causes:"Lehké magnety",fix:"Print door catch mod"}],upgrades:["Aktivní chamber heater (DIY)","Carbon fiber tryska","Camera AI monitoring"],notes:"Flagship 2025. Konkurence pro Bambu X1C ale s českou kvalitou a podporou."},
+  "Prusa XL (5-toolhead)": {brand:"Prusa Research",country:"🇨🇿",year:2023,status:"current",price_eur:4999,type:"Multi-tool",kinematics:"Cartesian Bed-stationary",build:[360,360,360],nozzle_max:320,bed_max:120,hotend:"5x Nextruder",bed_surface:["Segmented heatbed (16 zones)","Smooth PEI"],speeds:{max_print:200,max_travel:300,max_accel:5000},materials:["PLA","PETG","ABS","ASA","PC","PA-CF"],features:["5 toolheads","Segmented heatbed","No purge tower needed","Industrial-grade"],pros:["True multi-material bez purge","Velký build","Industrial reliability"],cons:["Vysoká cena","Spousta motorů (servis)","Pomalejší než CoreXY"],issues:[{issue:"Toolhead docking",causes:"Misalignment",fix:"Re-calibrate tool offsets after maintenance"},{issue:"Segment heatbed gradient",causes:"Edge segments cooler",fix:"Use only central area for critical prints"}],upgrades:["Additional toolheads (max 5)","Enclosure kit","Filament dryer integration"],notes:"Pro profesionály a multi-material entuziasty. Top na trhu pro multi-tool."},
+  "Bambu Lab X1 Carbon": {brand:"Bambu Lab",country:"🐼",year:2022,status:"current",price_eur:1299,type:"CoreXY enclosed",kinematics:"CoreXY",build:[256,256,256],nozzle_max:300,bed_max:120,hotend:"Hardened steel",bed_surface:["Cool plate","Engineering plate","Textured PEI","High temp plate"],speeds:{max_print:500,max_travel:500,max_accel:20000},materials:["PLA","PETG","ABS","ASA","PC","TPU","PA-CF","PET-CF"],features:["AMS multi-color","LIDAR scanning","Camera AI","Auto bed level","Vibration compensation"],pros:["Top rychlost out of box","AMS pro multi-color","Camera AI fail detection","Hardened tryska standard"],cons:["Closed source / vendor lock","Cloud dependency","Repair drahé"],issues:[{issue:"Layer shift při rychlém tisku",causes:"Belt tension",fix:"Recalibrate belt tension"},{issue:"AMS filament jams",causes:"Vlhký filament",fix:"Sušit filament před AMS, použij dry box"},{issue:"Cloud lock concerns",causes:"Bambu cloud",fix:"LAN-only mode dostupný v firmware"}],upgrades:["AMS Lite/Pro","Hardened CHT tryska","Frame stiffeners"],notes:"Industry-leading rychlost a multi-color. Kontroverzní ohledně cloud, ale nejlepší AMS."},
+  "Bambu Lab P1S": {brand:"Bambu Lab",country:"🐼",year:2023,status:"current",price_eur:799,type:"CoreXY enclosed",kinematics:"CoreXY",build:[256,256,256],nozzle_max:300,bed_max:110,hotend:"Standard",bed_surface:["Cool plate","Textured PEI"],speeds:{max_print:500,max_travel:500,max_accel:20000},materials:["PLA","PETG","ABS","ASA","TPU","PC"],features:["Enclosed","AMS compatible","Vibration compensation","Camera (basic)"],pros:["Cena vs X1C","AMS compatible","Enclosed pro ABS","Rychlost"],cons:["Bez LIDAR (manuální calibration)","Camera nižší kvalita","Bez Carbon fiber materials"],issues:[{issue:"PETG layer adhesion",causes:"Closed chamber too hot for PETG",fix:"Open door pro PETG"},{issue:"AMS jam na flexi material",causes:"TPU bowden distance",fix:"Use AMS Lite nebo direct"}],upgrades:["AMS","AMS HT pro high-temp","Hardened tryska","WiFi antenna mod"],notes:"Most populární Bambu pro hobby. Best bang for buck."},
+  "Bambu Lab P1P": {brand:"Bambu Lab",country:"🐼",year:2022,status:"superseded",price_eur:599,type:"CoreXY open",kinematics:"CoreXY",build:[256,256,256],nozzle_max:300,bed_max:100,hotend:"Standard",bed_surface:["Cool plate","Textured PEI"],speeds:{max_print:500,max_travel:500,max_accel:20000},materials:["PLA","PETG","TPU"],features:["Open frame","AMS compatible","Vibration compensation"],pros:["Levný vstup do Bambu","Lze upgradovat na P1S","Rychlost"],cons:["Open frame (žádný ABS)","Bez camera","Vyžaduje enclosure kit"],issues:[{issue:"ABS warping",causes:"Open frame",fix:"Buy enclosure kit nebo upgrade P1S"},{issue:"Drafty room",causes:"Open frame",fix:"DIY enclosure z kartonu"}],upgrades:["P1S enclosure kit (oficiální)","AMS","Door magnet"],notes:"Náhrazen P1S. Stále dobrý pro PLA/PETG only."},
+  "Bambu Lab P2S": {brand:"Bambu Lab",country:"🐼",year:2025,status:"current",price_eur:899,type:"CoreXY enclosed",kinematics:"CoreXY",build:[256,256,256],nozzle_max:320,bed_max:120,hotend:"Hardened standard",bed_surface:["Cool plate","Textured PEI","Engineering"],speeds:{max_print:500,max_travel:500,max_accel:20000},materials:["PLA","PETG","ABS","ASA","PC","TPU","PA-CF"],features:["Enclosed","AMS 2.0 compatible","Improved camera","Active chamber sensor"],pros:["Sucessor P1S s lepším hotendem","CF materials support","AMS 2.0","Chamber sensor"],cons:["Cena vyšší než P1S","P1S → P2S upgrade ne (musíš koupit nový)"],issues:[{issue:"Nedávný release - málo data",causes:"Nový model 2025",fix:"Sleduj firmware updates"}],upgrades:["AMS 2.0","High-temp materials kit"],notes:"Náhrazuje P1S, lepší pro engineering materiály."},
+  "Bambu Lab A1": {brand:"Bambu Lab",country:"🐼",year:2024,status:"current",price_eur:399,type:"Bedslinger",kinematics:"Cartesian",build:[256,256,256],nozzle_max:300,bed_max:100,hotend:"Standard",bed_surface:["Cool plate","Textured PEI"],speeds:{max_print:500,max_travel:500,max_accel:10000},materials:["PLA","PETG","TPU"],features:["AMS Lite compatible","Camera","Active flow rate","Open frame"],pros:["Bambu rychlost za nízkou cenu","AMS Lite multi-color","Snadné použití"],cons:["Open frame","Bedslinger limit","Žádné ABS/CF"],issues:[{issue:"Recall 2024 (heater)",causes:"Heater wire",fix:"Bambu vyřešil — zkontroluj firmware patch"},{issue:"PETG sticking to bed",causes:"Cool plate adhesion příliš",fix:"Glue stick layer"}],upgrades:["AMS Lite (multi-color)","Frame stiffener","DIY enclosure"],notes:"Nejprodávanější Bambu 2024. Top entry-level multi-color."},
+  "Bambu Lab A1 mini": {brand:"Bambu Lab",country:"🐼",year:2023,status:"current",price_eur:299,type:"Bedslinger",kinematics:"Cartesian",build:[180,180,180],nozzle_max:300,bed_max:80,hotend:"Standard",bed_surface:["Cool plate","Textured PEI"],speeds:{max_print:500,max_travel:500,max_accel:10000},materials:["PLA","PETG","TPU"],features:["AMS Lite compatible","Camera","Compact"],pros:["Nejlevnější Bambu","AMS Lite","Kompaktní pro stůl"],cons:["Malý build volume","Open frame","Žádný ABS"],issues:[{issue:"Build volume omezuje",causes:"Design",fix:"Pro větší díly použij A1 nebo P1S"}],upgrades:["AMS Lite","DIY enclosure"],notes:"Ideální první 3D tiskárna nebo druhá pro small parts."},
+  "Creality K1": {brand:"Creality",country:"🇨🇳",year:2023,status:"current",price_eur:599,type:"CoreXY enclosed",kinematics:"CoreXY",build:[220,220,250],nozzle_max:300,bed_max:100,hotend:"High flow",bed_surface:["Textured PEI"],speeds:{max_print:600,max_travel:600,max_accel:20000},materials:["PLA","PETG","ABS","TPU","PA-CF (s upgrade)"],features:["Enclosed","Klipper-based","Camera (basic)","Auto bed level"],pros:["Cena vs CoreXY konkurence","Klipper z továrny","Rychlost"],cons:["Closed firmware (nelze plně Klipper)","Camera kvalita slabá","Klippers menší než SimplyPrint"],issues:[{issue:"PETG ringing",causes:"Vibrace při velkém zrychlení",fix:"Klipper input shaper calibration"},{issue:"Camera offset",causes:"Mount design",fix:"DIY mount mod"}],upgrades:["Mainsail/Fluidd full Klipper","CHT tryska","Open firmware mod"],notes:"Budget CoreXY s Klipperem. Pro tech-savvy makery."},
+  "Creality K1 Max": {brand:"Creality",country:"🇨🇳",year:2023,status:"current",price_eur:899,type:"CoreXY enclosed",kinematics:"CoreXY",build:[300,300,300],nozzle_max:300,bed_max:100,hotend:"High flow",bed_surface:["Textured PEI"],speeds:{max_print:600,max_travel:600,max_accel:20000},materials:["PLA","PETG","ABS","TPU","PA-CF"],features:["LIDAR","AI camera","Enclosed","Klipper"],pros:["Velký build","LIDAR scan","Rychlost"],cons:["LIDAR ne vždy spolehlivý","Closed firmware"],issues:[{issue:"LIDAR sometimes misreads",causes:"Software bug",fix:"Disable LIDAR, manual cal"}],upgrades:["Full Klipper","CHT tryska","Frame stiffeners"],notes:"Větší verze K1 s LIDAR. Pro lidi co potřebují víc build volume."},
+  "Creality Ender 3": {brand:"Creality",country:"🇨🇳",year:2018,status:"legacy",price_eur:179,type:"Bedslinger",kinematics:"Cartesian",build:[220,220,250],nozzle_max:260,bed_max:110,hotend:"Bowden V6 clone",bed_surface:["Glass","BuildTak","Magnetic"],speeds:{max_print:80,max_travel:150,max_accel:500},materials:["PLA","PETG","TPU","ABS (s upgrades)"],features:["Manual bed level","Bowden extruder"],pros:["Nejprodávanější 3D tiskárna všech dob","Obrovská komunita","Mnoho upgradů"],cons:["Pomalá","Manual bed leveling","Bowden = stringing","Z-banding"],issues:[{issue:"Manual bed leveling náročné",causes:"Žádný senzor",fix:"Upgrade BLTouch nebo CR-Touch"},{issue:"Stringing PETG",causes:"Bowden trubka",fix:"Direct drive upgrade"},{issue:"Z-wobble",causes:"Levné Z-screws",fix:"Klipper input shaper + dual Z mod"}],upgrades:["BLTouch/CR-Touch","Direct drive extruder","Dual Z","Klipper firmware","All-metal hotend"],notes:"Workhorse mnoha makerů. Modifikovatelný do nekonečna. Pro tinker enthusiasty."},
+  "Creality Ender 3 V3 SE": {brand:"Creality",country:"🇨🇳",year:2023,status:"current",price_eur:219,type:"Bedslinger",kinematics:"Cartesian",build:[220,220,250],nozzle_max:260,bed_max:100,hotend:"Sprite direct",bed_surface:["Textured PEI"],speeds:{max_print:250,max_travel:300,max_accel:2500},materials:["PLA","PETG","TPU"],features:["CR-Touch auto level","Direct drive","Y-axis dual rod"],pros:["Direct drive z výroby","Auto level","Lepší rychlost","Cena"],cons:["Žádné ABS support","Manual height calibration občas","Slabší hotend"],issues:[{issue:"CR-Touch occasional",causes:"Settings",fix:"Z-offset re-calibration"}],upgrades:["BIQU H2 extruder","Klipper firmware","CHT tryska"],notes:"Moderní Ender 3 pro začátečníky. Auto-level + direct drive z výroby."},
+  "Creality Ender 3 V3 KE": {brand:"Creality",country:"🇨🇳",year:2023,status:"current",price_eur:299,type:"Bedslinger",kinematics:"Cartesian",build:[220,220,240],nozzle_max:300,bed_max:100,hotend:"Sprite",bed_surface:["Textured PEI"],speeds:{max_print:500,max_travel:500,max_accel:8000},materials:["PLA","PETG","ABS","TPU"],features:["Klipper-based","Auto level","Direct drive","HDMI display"],pros:["Klipper z výroby","Vysoká rychlost","Cena vs CoreXY"],cons:["Bedslinger limit při high speed","Manual mesh občas"],issues:[{issue:"Ringing při 500mm/s",causes:"Bedslinger fyzika",fix:"Use input shaper calibration"}],upgrades:["Frame stiffeners","CHT tryska"],notes:"Speed-focused Ender 3. Pro lidi co chtějí rychlost bez plné enclosure."},
+  "Creality K2 Plus": {brand:"Creality",country:"🇨🇳",year:2024,status:"current",price_eur:1499,type:"CoreXY enclosed",kinematics:"CoreXY",build:[350,350,350],nozzle_max:350,bed_max:120,hotend:"High flow",bed_surface:["Textured PEI"],speeds:{max_print:600,max_travel:800,max_accel:30000},materials:["PLA","PETG","ABS","ASA","PC","PA-CF"],features:["LIDAR","CFS multi-color (Creality AMS)","Active chamber heater","Camera AI"],pros:["Aktivní chamber heater","Velký build","CFS pro multi-color","Klipper"],cons:["Cena","Nový model = potenciální bugs","CFS méně vyzrálé než Bambu AMS"],issues:[{issue:"CFS multi-material clogs",causes:"Filament path",fix:"Aktualizuj firmware, čisti CFS pravidelně"}],upgrades:["Vyšší flow nozzle","Filament dryer integration"],notes:"Konkurent X1C s aktivním chamber heaterem. Pro engineering plasty."},
+  "Anycubic Kobra 3": {brand:"Anycubic",country:"🇨🇳",year:2024,status:"current",price_eur:299,type:"Bedslinger",kinematics:"Cartesian",build:[250,250,260],nozzle_max:300,bed_max:110,hotend:"Direct drive",bed_surface:["Textured PEI"],speeds:{max_print:600,max_travel:600,max_accel:20000},materials:["PLA","PETG","ABS","TPU"],features:["ACE Pro multi-color","Auto level","LIDAR (Combo version)","Camera"],pros:["Budget multi-color s ACE","Direct drive","Rychlost","Cena"],cons:["ACE Pro občas jams","Bedslinger speed limit","Mladý ecosystem"],issues:[{issue:"ACE Pro jams na PETG",causes:"PETG sticky filament",fix:"Sušení filamentu + dry box"}],upgrades:["ACE Pro multi-color","Hardened tryska","Frame mods"],notes:"Cheap multi-color alternative k Bambu A1+AMS Lite."},
+  "Voron 2.4": {brand:"Voron Design",country:"🛠️",year:2020,status:"DIY-active",price_eur:1200,type:"CoreXY enclosed",kinematics:"CoreXY",build:[250,250,250,300,300,300,350,350,350],nozzle_max:350,bed_max:120,hotend:"Custom (Dragon/Rapido/Phaetus)",bed_surface:["Smooth PEI","Textured PEI"],speeds:{max_print:500,max_travel:500,max_accel:20000},materials:["PLA","PETG","ABS","ASA","PC","PA-CF","PEI"],features:["Open source","Quad-gantry leveling","Klipper","Customizable"],pros:["Otevřený design","Top performance při dobré stavbě","Klipper z výroby","Community-driven"],cons:["DIY = čas a frustrace","Není pro začátečníky","BOM ~1000-1500 EUR"],issues:[{issue:"QGL fails",causes:"Z-belts misaligned",fix:"Recheck Z-belt tension"},{issue:"Skipping kroky",causes:"TMC drivers",fix:"Calibrate stepper current"},{issue:"Lojze A/B belts opotřebený",causes:"Long-term use",fix:"Replace belts ročně"}],upgrades:["Stealthburner toolhead","Tap Z-probe","ERCF multi-material"],notes:"DIY král. Pokud máš čas a chuť, postavíš lepší tiskárnu než Bambu za stejnou cenu."}
+};
+
+// ── Render ──
+
+function escH(t){if(t==null)return"";var d=document.createElement("div");d.textContent=String(t);return d.innerHTML;}
+
+function statusLabel(s){
+  return {current:"Aktuální",legacy:"Legacy",superseded:"Nahrazen","DIY-active":"DIY"}[s] || s;
+}
+
+function statusClass(s){
+  return {current:"tag-current",legacy:"tag-legacy",superseded:"tag-superseded","DIY-active":"tag-diy"}[s] || "";
+}
+
+function renderPrinter(name){
+  var p = PRINTER_DB[name];
+  if(!p){
+    document.getElementById("content").innerHTML = 
+      '<div class="notfound">' +
+      '<h1>Tiskárna nenalezena</h1>' +
+      '<p>Pro tiskárnu "'+escH(name)+'" zatím nemáme detailní profil.</p>' +
+      '<p>Můžeš ji použít v PrintGenie nástrojích — diagnóza i Slicer Profiler s ní fungují.</p>' +
+      '<a class="hero-btn hero-btn-primary" href="/">Zpět na PrintGenie</a>' +
+      '</div>';
+    return;
+  }
+
+  // Update page title and description for SEO
+  document.title = name + " — Specifikace a problémy | PrintGenie";
+  document.getElementById("page-desc").content = name + ": " + (p.notes || "") + " Specs, známé problémy, doporučené upgrady, AI diagnostika zdarma.";
+
+  var build = Array.isArray(p.build) && p.build.length >= 3 ? 
+    p.build[0]+"×"+p.build[1]+"×"+p.build[2]+" mm" : "—";
+
+  var html = '<div class="hero">';
+  html += '<div class="hero-meta">';
+  html += '<span>'+p.country+' '+escH(p.brand)+'</span>';
+  html += '<span>'+escH(p.type)+'</span>';
+  html += '<span>'+p.year+'</span>';
+  html += '<span class="'+statusClass(p.status)+'">'+statusLabel(p.status)+'</span>';
+  if(p.price_eur) html += '<span>~'+p.price_eur+' EUR</span>';
+  html += '</div>';
+  
+  html += '<h1 class="hero-title">'+escH(name)+'</h1>';
+  if(p.notes) html += '<p class="hero-sub">'+escH(p.notes)+'</p>';
+  
+  html += '<div class="hero-cta">';
+  html += '<a class="hero-btn hero-btn-primary" href="/#s-doc">📸 Zkontroluj svůj fail</a>';
+  html += '<a class="hero-btn" href="/#s-prof">⚙️ Vygenerovat slicer profil</a>';
+  html += '<a class="hero-btn" href="/#s-ai">💬 Zeptat se AI</a>';
+  html += '</div>';
+  html += '</div>';
+
+  // Specs grid
+  html += '<div class="specs">';
+  html += '<div class="spec"><div class="spec-lbl">BUILD VOLUME</div><div class="spec-val">'+build+'</div></div>';
+  html += '<div class="spec"><div class="spec-lbl">KINEMATIKA</div><div class="spec-val">'+escH(p.kinematics)+'</div></div>';
+  html += '<div class="spec"><div class="spec-lbl">HOTEND</div><div class="spec-val">'+escH(p.hotend)+'</div></div>';
+  html += '<div class="spec"><div class="spec-lbl">MAX TRYSKA</div><div class="spec-val">'+p.nozzle_max+'°C</div></div>';
+  html += '<div class="spec"><div class="spec-lbl">MAX PODLOŽKA</div><div class="spec-val">'+p.bed_max+'°C</div></div>';
+  if(p.speeds && p.speeds.max_print){
+    html += '<div class="spec"><div class="spec-lbl">MAX RYCHLOST</div><div class="spec-val">'+p.speeds.max_print+' mm/s</div></div>';
+  }
+  if(p.speeds && p.speeds.max_accel){
+    html += '<div class="spec"><div class="spec-lbl">MAX AKCELERACE</div><div class="spec-val">'+p.speeds.max_accel+' mm/s²</div></div>';
+  }
+  html += '</div>';
+
+  // Materials
+  if(p.materials && p.materials.length){
+    html += '<div class="section">';
+    html += '<div class="section-title">PODPOROVANÉ MATERIÁLY</div>';
+    html += '<div class="tags">';
+    p.materials.forEach(function(m){
+      html += '<span class="tag tag-mat">'+escH(m)+'</span>';
+    });
+    html += '</div></div>';
+  }
+
+  // Features
+  if(p.features && p.features.length){
+    html += '<div class="section">';
+    html += '<div class="section-title">FUNKCE</div>';
+    html += '<div class="tags">';
+    p.features.forEach(function(f){
+      html += '<span class="tag tag-feat">'+escH(f)+'</span>';
+    });
+    html += '</div></div>';
+  }
+
+  // Bed surfaces
+  if(p.bed_surface && p.bed_surface.length){
+    html += '<div class="section">';
+    html += '<div class="section-title">PODLOŽKY</div>';
+    html += '<div class="tags">';
+    p.bed_surface.forEach(function(b){
+      html += '<span class="tag">'+escH(b)+'</span>';
+    });
+    html += '</div></div>';
+  }
+
+  // Pros & Cons
+  if((p.pros && p.pros.length) || (p.cons && p.cons.length)){
+    html += '<div class="section">';
+    html += '<div class="section-title">PRO A PROTI</div>';
+    html += '<div class="pros-cons">';
+    if(p.pros){
+      html += '<div class="pros">';
+      html += '<div class="pros-cons-title">VÝHODY</div>';
+      html += '<ul>';
+      p.pros.forEach(function(x){html += '<li>'+escH(x)+'</li>';});
+      html += '</ul></div>';
+    }
+    if(p.cons){
+      html += '<div class="cons">';
+      html += '<div class="pros-cons-title">NEVÝHODY</div>';
+      html += '<ul>';
+      p.cons.forEach(function(x){html += '<li>'+escH(x)+'</li>';});
+      html += '</ul></div>';
+    }
+    html += '</div></div>';
+  }
+
+  // Known issues
+  if(p.issues && p.issues.length){
+    html += '<div class="section">';
+    html += '<div class="section-title">ZNÁMÉ PROBLÉMY</div>';
+    p.issues.forEach(function(iss){
+      html += '<div class="issue">';
+      html += '<div class="issue-title">⚠️ '+escH(iss.issue)+'</div>';
+      html += '<div class="issue-cause"><strong>Příčina:</strong> '+escH(iss.causes)+'</div>';
+      html += '<div class="issue-fix"><strong>Oprava:</strong> '+escH(iss.fix)+'</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  // Upgrades
+  if(p.upgrades && p.upgrades.length){
+    html += '<div class="section">';
+    html += '<div class="section-title">DOPORUČENÉ UPGRADY</div>';
+    html += '<div class="upgrades">';
+    p.upgrades.forEach(function(u){
+      html += '<span class="upgrade">⚡ '+escH(u)+'</span>';
+    });
+    html += '</div></div>';
+  }
+
+  // AI ask box
+  html += '<div class="ai-box">';
+  html += '<div class="ai-box-title">Máš s touhle tiskárnou problém?</div>';
+  html += '<div class="ai-box-sub">PrintGenie ti pomůže — diagnóza z fotky, slicer profil, AI chat. Vše zdarma.</div>';
+  html += '<div class="ai-box-buttons">';
+  html += '<a class="hero-btn hero-btn-primary" href="/#s-doc">📸 Nahrát fotku failu</a>';
+  html += '<a class="hero-btn" href="/#s-ai">💬 Zeptat se AI</a>';
+  html += '</div></div>';
+
+  document.getElementById("content").innerHTML = html;
+}
+
+if(printerName){
+  renderPrinter(printerName);
+} else {
+  // List all printers
+  var html = '<h1 style="font-size:36px;color:#fff;margin-bottom:20px">Encyklopedie tiskáren</h1>';
+  html += '<p style="color:#b4b4d0;margin-bottom:28px">Detailní profily, specifikace a známé problémy 3D tiskáren.</p>';
+  
+  // Group by brand
+  var brands = {};
+  Object.keys(PRINTER_DB).forEach(function(name){
+    var b = PRINTER_DB[name].brand;
+    if(!brands[b]) brands[b] = [];
+    brands[b].push(name);
+  });
+  
+  Object.keys(brands).forEach(function(brand){
+    html += '<div class="section">';
+    html += '<div class="section-title">'+escH(brand)+'</div>';
+    html += '<div class="specs">';
+    brands[brand].forEach(function(name){
+      var p = PRINTER_DB[name];
+      html += '<a class="spec" style="display:block;text-decoration:none;cursor:pointer" href="/printer.html?p='+encodeURIComponent(name)+'">';
+      html += '<div class="spec-lbl">'+statusLabel(p.status).toUpperCase()+' · '+p.year+'</div>';
+      html += '<div class="spec-val" style="font-size:14px">'+escH(name)+'</div>';
+      html += '<div class="spec-sub">'+escH(p.type)+' · ~'+p.price_eur+' EUR</div>';
+      html += '</a>';
+    });
+    html += '</div></div>';
+  });
+  
+  document.getElementById("content").innerHTML = html;
+  document.title = "Encyklopedie 3D tiskáren — PrintGenie";
+}
+</script>
+</body>
+</html>
